@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const LoginButton = () => {
     return (
-        <button className='btn btn-ghost' onClick={() => console.log('Hello')}>
+        <button className='btn btn-ghost'>
             <Link href='/login'> Login </Link>
         </button>
     );
