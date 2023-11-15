@@ -1,6 +1,8 @@
 import React from 'react';
-import LoginButton from './LoginButton';
+import LoginButton from './NavButtons';
 import SignupButton from './SignupButton';
+import Link from 'next/link';
+import NavButtons from './NavButtons';
 
 const NavBar = () => {
     return (
@@ -40,11 +42,12 @@ const NavBar = () => {
                 </div>
             </div>
             <div className='navbar-center'>
-                <a className='btn btn-ghost text-xl'>Personal Journal</a>
+                <Link href='/' className='btn btn-ghost text-xl'>
+                    Personal Journal
+                </Link>
             </div>
             <div className='navbar-end'>
-                <LoginButton />
-                <SignupButton />
+                <NavButtons />
             </div>
         </div>
     );
