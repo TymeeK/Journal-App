@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { checkIfLoggedIn, createUser, googleLogin } from '@/firebase-config';
+import { createUser, googleLogin } from '@/firebase-config';
 import { useRouter } from 'next/navigation';
 import { Unsubscribe } from 'firebase/auth';
 

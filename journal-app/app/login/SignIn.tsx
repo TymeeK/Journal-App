@@ -3,6 +3,7 @@ import React from 'react';
 import { auth, provider } from '@/firebase-config';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/navigation';
+import Loading from './loading';
 
 const SignIn = () => {
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
@@ -12,19 +13,20 @@ const SignIn = () => {
     }
 
     if (loading) {
-        return (
-            <div>
-                <p>Loading...</p>
-            </div>
-        );
+        return <Loading />;
     }
     if (user) {
         router.push('/');
     }
     return (
-        <button className='btn btn-ghost' onClick={() => signInWithGoogle()}>
-            Sign in with Google
-        </button>
+        <div className='w-full flex justify-center'>
+            <button
+                className='btn btn-ghost'
+                onClick={() => signInWithGoogle()}
+            >
+                Sign in with Google
+            </button>
+        </div>
     );
 };
 

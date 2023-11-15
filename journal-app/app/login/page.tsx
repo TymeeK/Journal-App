@@ -4,7 +4,7 @@ import SignIn from './SignIn';
 const LoginPage = () => {
     return (
         <div className='flex justify-center items-center  outline-primary h-screen '>
-            <div className='form-control w-full max-w-xs border-2 p-5 rounded-xl '>
+            <div className='form-control w-full max-w-xs p-5 rounded-xl'>
                 <form>
                     {/* <label className='label'>
                         <span className='label-text'>Username</span>
