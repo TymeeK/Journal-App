@@ -1,5 +1,6 @@
 import React from 'react';
 import FormFields from './FormFields';
+import { checkIfLoggedIn } from '@/firebase-config';
 
 const SignupPage = () => {
     return (

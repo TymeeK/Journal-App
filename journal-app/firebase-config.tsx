@@ -1,5 +1,16 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    GoogleAuthProvider,
+    signInWithPopup,
+    OAuthCredential,
+    User,
+    UserCredential,
+    signInWithRedirect,
+    Unsubscribe,
+} from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth/cordova';
 
 const fireBaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -12,7 +23,6 @@ const fireBaseConfig = {
 
 const app = initializeApp(fireBaseConfig);
 
-console.log('Firebase file');
 const auth = getAuth(app);
 
 export function createUser(email: string, password: string) {
@@ -25,4 +35,18 @@ export function createUser(email: string, password: string) {
             const errorCode = error.code;
             const errorMessage = error.message;
         });
+}
+const provider = new GoogleAuthProvider();
+export function googleLogin() {
+    signInWithRedirect(auth, provider);
+}
+
+export async function checkIfLoggedIn() {
+    let loginState: boolean = false;
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            loginState = true;
+        }
+    });
+    return loginState;
 }
