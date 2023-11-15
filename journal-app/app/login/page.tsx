@@ -1,21 +1,12 @@
 import React from 'react';
-import LoginButton from '../components/LoginButton';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
+import SignIn from './SignIn';
 
 const LoginPage = () => {
-    async function create(formData: FormData): Promise<void> {
-        'use server';
-        //Do stuff in the database
-        console.log(formData.get('username')?.valueOf());
-        console.log(formData.get('password')?.valueOf());
-    }
-
     return (
         <div className='flex justify-center items-center  outline-primary h-screen '>
             <div className='form-control w-full max-w-xs border-2 p-5 rounded-xl '>
-                <form action={create}>
-                    <label className='label'>
+                <form>
+                    {/* <label className='label'>
                         <span className='label-text'>Username</span>
                     </label>
                     <input
@@ -41,7 +32,8 @@ const LoginPage = () => {
                             Signup!
                         </span>
                     </label>
-                    <button className='btn btn-ghost'> Login</button>
+                    <button className='btn btn-ghost'> Login</button> */}
+                    <SignIn />
                 </form>
             </div>
         </div>

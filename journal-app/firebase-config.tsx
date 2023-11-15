@@ -23,7 +23,8 @@ const fireBaseConfig = {
 
 const app = initializeApp(fireBaseConfig);
 
-const auth = getAuth(app);
+export const auth = getAuth(app);
+export const provider = new GoogleAuthProvider();
 
 export function createUser(email: string, password: string) {
     createUserWithEmailAndPassword(auth, email, password)
@@ -36,17 +37,11 @@ export function createUser(email: string, password: string) {
             const errorMessage = error.message;
         });
 }
-const provider = new GoogleAuthProvider();
-export function googleLogin() {
-    signInWithRedirect(auth, provider);
-}
 
-export async function checkIfLoggedIn() {
-    let loginState: boolean = false;
-    onAuthStateChanged(auth, async (user) => {
-        if (user) {
-            loginState = true;
-        }
-    });
-    return loginState;
+export async function googleLogin() {
+    try {
+        await signInWithRedirect(auth, provider);
+    } catch (error) {
+        console.error('Error signing in with Google', error);
+    }
 }

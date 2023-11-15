@@ -32,18 +32,6 @@ const FormFields = (props) => {
         router.push('/');
     };
 
-    const onClickGoogleButton = () => {
-        googleLogin();
-    };
-
-    useEffect(() => {
-        const isUserSignedIn = async () => {
-            setLoggedIn(await checkIfLoggedIn());
-            if (loggedIn) router.push('/');
-        };
-        isUserSignedIn();
-    }, [loggedIn]);
-
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -106,11 +94,7 @@ const FormFields = (props) => {
                     <button className='btn btn-ghost m-5 '> Sign up</button>
                 </div>
             </form>
-            <div className='flex justify-center'>
-                <button className='btn btn-ghost' onClick={onClickGoogleButton}>
-                    Sign in with Google
-                </button>
-            </div>
+            <div className='flex justify-center'></div>
         </>
     );
 };
