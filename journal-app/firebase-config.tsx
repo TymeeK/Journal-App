@@ -1,16 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    GoogleAuthProvider,
-    signInWithPopup,
-    OAuthCredential,
-    User,
-    UserCredential,
-    signInWithRedirect,
-    Unsubscribe,
-} from 'firebase/auth';
-import { onAuthStateChanged } from 'firebase/auth/cordova';
+import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 
 const fireBaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -25,23 +14,3 @@ const app = initializeApp(fireBaseConfig);
 
 export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();
-
-export function createUser(email: string, password: string) {
-    createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            const user = userCredential.user;
-            console.log(user);
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-        });
-}
-
-export async function googleLogin() {
-    try {
-        await signInWithRedirect(auth, provider);
-    } catch (error) {
-        console.error('Error signing in with Google', error);
-    }
-}

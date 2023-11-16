@@ -25,8 +25,23 @@ const TipTap = () => {
     });
 
     return (
-        <RichTextEditor editor={editor}>
-            <RichTextEditor.Toolbar sticky stickyOffset={60}>
+        <RichTextEditor
+            editor={editor}
+            styles={{
+                root: {
+                    borderRadius: '10px',
+                    marginTop: '2em',
+                    marginLeft: '2em',
+                    marginRight: '2em',
+                    marginBottom: '2em',
+                    height: '100vh',
+                    border: '1px solid black',
+                },
+                toolbar: { display: 'flex', justifyContent: 'center' },
+                content: { height: '100vh' },
+            }}
+        >
+            <RichTextEditor.Toolbar>
                 <RichTextEditor.ControlsGroup>
                     <RichTextEditor.Bold />
                     <RichTextEditor.Italic />
@@ -65,7 +80,6 @@ const TipTap = () => {
                     <RichTextEditor.AlignRight />
                 </RichTextEditor.ControlsGroup>
             </RichTextEditor.Toolbar>
-
             <RichTextEditor.Content />
         </RichTextEditor>
     );
