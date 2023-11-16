@@ -22,6 +22,9 @@ const TipTap = () => {
             TextAlign.configure({ types: ['heading', 'paragraph'] }),
         ],
         content,
+        onUpdate: ({ editor }) => {
+            const html = editor.getHTML();
+        },
     });
 
     return (
@@ -34,11 +37,9 @@ const TipTap = () => {
                     marginLeft: '2em',
                     marginRight: '2em',
                     marginBottom: '2em',
-                    height: '100vh',
                     border: '1px solid black',
                 },
                 toolbar: { display: 'flex', justifyContent: 'center' },
-                content: { height: '100vh' },
             }}
         >
             <RichTextEditor.Toolbar>

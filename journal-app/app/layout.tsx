@@ -25,7 +25,9 @@ export default function RootLayout({
             </head>
             <body className={inter.className}>
                 <NavBar />
-                {children}
+                <MantineProvider defaultColorScheme='light'>
+                    {children}
+                </MantineProvider>
             </body>
         </html>
     );
