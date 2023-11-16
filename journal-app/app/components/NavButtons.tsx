@@ -18,9 +18,7 @@ const NavButtons = () => {
             {user ? (
                 <>
                     <button className='btn btn-ghost'>
-                        <Link href='/login'>
-                            Welcome {user.user.displayName}!
-                        </Link>
+                        Welcome {user.user.displayName}!
                     </button>
                     <button
                         className='btn btn-ghost'
