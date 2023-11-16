@@ -1,5 +1,9 @@
 import Image from 'next/image';
-
+import TipTap from './components/TipTap';
 export default function Home() {
-    return <main>Test</main>;
+    return (
+        <main>
+            <TipTap />
+        </main>
+    );
 }
