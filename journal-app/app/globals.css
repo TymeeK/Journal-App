@@ -13,5 +13,8 @@
 }
 
 body {
-    background-color: red;
+}
+
+.ProseMirror:focus {
+    outline: none;
 }
