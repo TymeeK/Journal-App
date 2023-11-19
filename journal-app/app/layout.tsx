@@ -19,13 +19,13 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang='en' data-theme='light'>
+        <html lang='en' data-theme='dark'>
             <head>
-                <ColorSchemeScript defaultColorScheme='light' />
+                <ColorSchemeScript defaultColorScheme='dark' />
             </head>
             <body className={inter.className}>
                 <NavBar />
-                <MantineProvider defaultColorScheme='light'>
+                <MantineProvider defaultColorScheme='dark'>
                     {children}
                 </MantineProvider>
             </body>
