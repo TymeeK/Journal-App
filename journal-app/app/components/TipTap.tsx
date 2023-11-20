@@ -16,6 +16,7 @@ import {
     CiTextAlignLeft,
     CiTextAlignRight,
 } from 'react-icons/ci';
+import { LuHeading1, LuHeading2, LuHeading3 } from 'react-icons/lu';
 
 const content: string =
     '<h2 style="text-align: center;">Welcome to Mantine rich text editor</h2><p><code>RichTextEditor</code> component focuses on usability and is designed to be as simple as possible to bring a familiar editing experience to regular users. <code>RichTextEditor</code> is based on <a href="https://tiptap.dev/" rel="noopener noreferrer" target="_blank">Tiptap.dev</a> and supports all of its features:</p><ul><li>General text formatting: <strong>bold</strong>, <em>italic</em>, <u>underline</u>, <s>strike-through</s> </li><li>Headings (h1-h6)</li><li>Sub and super scripts (<sup>&lt;sup /&gt;</sup> and <sub>&lt;sub /&gt;</sub> tags)</li><li>Ordered and bullet lists</li><li>Text align&nbsp;</li><li>And all <a href="https://tiptap.dev/extensions" target="_blank" rel="noopener noreferrer">other extensions</a></li></ul>';
@@ -214,7 +215,7 @@ const TipTap = () => {
                                     : 'btn join-item'
                             }
                         >
-                            H1
+                            <LuHeading1 />
                         </button>
                         <button
                             onClick={() =>
@@ -230,7 +231,7 @@ const TipTap = () => {
                                     : 'btn join-item'
                             }
                         >
-                            H2
+                            <LuHeading2 />
                         </button>
                         <button
                             onClick={() =>
@@ -246,7 +247,7 @@ const TipTap = () => {
                                     : 'btn join-item'
                             }
                         >
-                            H3
+                            <LuHeading3 />
                         </button>
                     </div>
                 </div>
