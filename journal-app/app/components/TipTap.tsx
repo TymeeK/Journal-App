@@ -27,7 +27,9 @@ const TipTap = () => {
             Heading.configure({
                 levels: [1, 2, 3],
             }),
-            TextAlign.configure({ types: ['heading', 'paragraph'] }),
+            TextAlign.configure({
+                types: ['heading', 'paragraph'],
+            }),
         ],
         content,
         onUpdate: ({ editor }) => {
@@ -45,7 +47,7 @@ const TipTap = () => {
             >
                 <div
                     className='flex justify-center items-center padding-5 
-                    bg-secondary-content mb-5 -ml-5 -mr-5 '
+                    bg-secondary-content mb-5 -ml-5 -mr-5 gap-x-5 '
                 >
                     <div className='join'>
                         <button
@@ -126,6 +128,56 @@ const TipTap = () => {
                                     <GrUnderline />
                                 </>
                             )}
+                        </button>
+                    </div>
+                    <div className='join'>
+                        <button
+                            onClick={() =>
+                                editor
+                                    ?.chain()
+                                    .focus()
+                                    .setTextAlign('left')
+                                    .run()
+                            }
+                            className={
+                                editor?.isActive({ textAlign: 'left' })
+                                    ? 'is-active btn join-item bg-primary'
+                                    : 'btn join-item'
+                            }
+                        >
+                            Left
+                        </button>
+                        <button
+                            onClick={() =>
+                                editor
+                                    ?.chain()
+                                    .focus()
+                                    .setTextAlign('center')
+                                    .run()
+                            }
+                            className={
+                                editor?.isActive({ textAlign: 'center' })
+                                    ? 'is-active btn join-item bg-primary'
+                                    : 'btn join-item'
+                            }
+                        >
+                            Center
+                        </button>
+                        <button
+                            onClick={() =>
+                                editor
+                                    ?.chain()
+                                    .focus()
+                                    .setTextAlign('right')
+                                    .run()
+                            }
+                            className={
+                                editor?.isActive({ textAlign: 'right' })
+                                    ? 'is-active btn join-item bg-primary'
+                                    : 'btn join-item'
+                            }
+                        >
+                            Right
                         </button>
                     </div>
                 </div>
