@@ -8,8 +8,8 @@ import TextAlign from '@tiptap/extension-text-align';
 import Superscript from '@tiptap/extension-superscript';
 import SubScript from '@tiptap/extension-subscript';
 import Heading from '@tiptap/extension-heading';
-import { useState } from 'react';
-import { GrBold, GrItalic, GrUnderline } from 'react-icons/gr';
+import { useEffect, useState } from 'react';
+import { GrBold, GrItalic, GrStrikeThrough, GrUnderline } from 'react-icons/gr';
 import { FaBold, FaItalic, FaUnderline } from 'react-icons/fa';
 import {
     CiTextAlignCenter,
@@ -40,7 +40,6 @@ const TipTap = () => {
         onUpdate: ({ editor }) => {
             const html: string = editor.getHTML();
             setContentState(html);
-            console.log(contentState);
         },
     });
 
@@ -134,6 +133,18 @@ const TipTap = () => {
                                 </>
                             )}
                         </button>
+                        <button
+                            onClick={() =>
+                                editor?.chain().focus().toggleStrike().run()
+                            }
+                            className={
+                                editor?.isActive('strike')
+                                    ? 'join-item btn bg-primary'
+                                    : 'join-item btn'
+                            }
+                        >
+                            <GrStrikeThrough />
+                        </button>
                     </div>
                     <div className='join'>
                         <button
@@ -185,6 +196,7 @@ const TipTap = () => {
                             <CiTextAlignRight />
                         </button>
                     </div>
+                    <div className='join'></div>
                 </div>
             </EditorContent>
         </>

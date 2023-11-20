@@ -1,13 +1,7 @@
 'use client';
 import React from 'react';
-import Link from 'next/link';
 import { auth } from '@/firebase-config';
-import {
-    useAuthState,
-    useSignOut,
-    useSignInWithGoogle,
-} from 'react-firebase-hooks/auth';
-import { useRouter } from 'next/navigation';
+import { useSignOut, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 
 const NavButtons = () => {
     const [signOut, loadSignout, signOuterror] = useSignOut(auth);
