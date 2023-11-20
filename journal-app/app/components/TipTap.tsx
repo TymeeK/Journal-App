@@ -8,7 +8,7 @@ import TextAlign from '@tiptap/extension-text-align';
 import Superscript from '@tiptap/extension-superscript';
 import SubScript from '@tiptap/extension-subscript';
 import Heading from '@tiptap/extension-heading';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { GrBold, GrItalic, GrStrikeThrough, GrUnderline } from 'react-icons/gr';
 import { FaBold, FaItalic, FaUnderline } from 'react-icons/fa';
 import {
@@ -23,15 +23,17 @@ const TipTap = () => {
     const [contentState, setContentState] = useState<string>(content);
     const editor = useEditor({
         extensions: [
-            StarterKit,
+            StarterKit.configure({
+                heading: {
+                    levels: [1, 2, 3],
+                },
+            }),
             Underline,
             Link,
             Superscript,
             SubScript,
             Highlight,
-            Heading.configure({
-                levels: [1, 2, 3],
-            }),
+
             TextAlign.configure({
                 types: ['heading', 'paragraph'],
             }),
@@ -40,6 +42,7 @@ const TipTap = () => {
         onUpdate: ({ editor }) => {
             const html: string = editor.getHTML();
             setContentState(html);
+            console.log(contentState);
         },
     });
 
@@ -196,7 +199,24 @@ const TipTap = () => {
                             <CiTextAlignRight />
                         </button>
                     </div>
-                    <div className='join'></div>
+                    <div className='join'>
+                        <button
+                            onClick={() =>
+                                editor
+                                    ?.chain()
+                                    .focus()
+                                    .toggleHeading({ level: 1 })
+                                    .run()
+                            }
+                            className={
+                                editor?.isActive('heading', { level: 1 })
+                                    ? 'is-active btn join-item bg-primary'
+                                    : 'btn join-item'
+                            }
+                        >
+                            H1
+                        </button>
+                    </div>
                 </div>
             </EditorContent>
         </>
