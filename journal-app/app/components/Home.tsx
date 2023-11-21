@@ -2,7 +2,7 @@
 import React from 'react';
 import splash from '../Images/splash.jpg';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
-import { addUser, auth } from '@/firebase-config';
+import { auth } from '@/firebase-config';
 
 const Home = () => {
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);

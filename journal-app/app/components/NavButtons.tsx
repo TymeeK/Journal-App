@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { addUser, auth } from '@/firebase-config';
+import { auth } from '@/firebase-config';
 import {
     useSignOut,
     useSignInWithGoogle,
