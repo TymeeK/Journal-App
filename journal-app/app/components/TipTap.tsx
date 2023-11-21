@@ -7,7 +7,7 @@ import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import Superscript from '@tiptap/extension-superscript';
 import SubScript from '@tiptap/extension-subscript';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GrBold, GrItalic, GrStrikeThrough, GrUnderline } from 'react-icons/gr';
 import { FaBold, FaItalic, FaUnderline } from 'react-icons/fa';
 import {
@@ -17,7 +17,7 @@ import {
 } from 'react-icons/ci';
 import { LuHeading1, LuHeading2, LuHeading3 } from 'react-icons/lu';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '@/firebase-config';
+import { addJournalEntry, addUser, auth } from '@/firebase-config';
 import Home from './Home';
 
 const content: string =
@@ -47,7 +47,7 @@ const TipTap = () => {
         onUpdate: ({ editor }) => {
             const html: string = editor.getHTML();
             setContentState(html);
-            console.log(contentState);
+            addJournalEntry(user, html);
         },
     });
 
@@ -201,7 +201,9 @@ const TipTap = () => {
                                         .run()
                                 }
                                 className={
-                                    editor?.isActive({ textAlign: 'center' })
+                                    editor?.isActive({
+                                        textAlign: 'center',
+                                    })
                                         ? 'is-active btn join-item bg-primary'
                                         : 'btn join-item'
                                 }
@@ -235,7 +237,9 @@ const TipTap = () => {
                                         .run()
                                 }
                                 className={
-                                    editor?.isActive('heading', { level: 1 })
+                                    editor?.isActive('heading', {
+                                        level: 1,
+                                    })
                                         ? 'is-active btn join-item bg-primary'
                                         : 'btn join-item'
                                 }
@@ -251,7 +255,9 @@ const TipTap = () => {
                                         .run()
                                 }
                                 className={
-                                    editor?.isActive('heading', { level: 2 })
+                                    editor?.isActive('heading', {
+                                        level: 2,
+                                    })
                                         ? 'is-active btn join-item bg-primary'
                                         : 'btn join-item'
                                 }
@@ -267,7 +273,9 @@ const TipTap = () => {
                                         .run()
                                 }
                                 className={
-                                    editor?.isActive('heading', { level: 3 })
+                                    editor?.isActive('heading', {
+                                        level: 3,
+                                    })
                                         ? 'is-active btn join-item bg-primary'
                                         : 'btn join-item'
                                 }

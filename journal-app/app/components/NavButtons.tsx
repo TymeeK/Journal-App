@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { auth } from '@/firebase-config';
+import { addUser, auth } from '@/firebase-config';
 import {
     useSignOut,
     useSignInWithGoogle,
@@ -12,11 +12,14 @@ const NavButtons = () => {
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
     const [userId, idLoading, idError] = useIdToken(auth);
 
-    // if (loading) {
-    //     return <div>Loading</div>;
-    // }
-    if (idLoading) {
-        return <div>Loading</div>;
+    if (idLoading || loading) {
+        return (
+            <div className='flex justify-center items-center'>
+                <div>
+                    <span className='loading loading-spinner loading-lg'></span>
+                </div>
+            </div>
+        );
     }
     if (error) {
         console.error(error);

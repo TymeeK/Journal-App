@@ -1,8 +1,12 @@
 'use client';
 import React from 'react';
 import splash from '../Images/splash.jpg';
+import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { addUser, auth } from '@/firebase-config';
 
 const Home = () => {
+    const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+
     return (
         <div
             className='hero min-h-screen'
@@ -17,7 +21,14 @@ const Home = () => {
                         Hello there welcome to my Journal App
                     </h1>
                     <p className='mb-5'>Click to login and get started</p>
-                    <button className='btn btn-primary'>Get Started</button>
+                    <button
+                        className='btn btn-primary'
+                        onClick={() => {
+                            signInWithGoogle();
+                        }}
+                    >
+                        Get Started
+                    </button>
                 </div>
             </div>
         </div>
