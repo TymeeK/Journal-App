@@ -18,7 +18,13 @@ import {
 import { LuHeading1, LuHeading2, LuHeading3 } from 'react-icons/lu';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
-import { db, auth, addUser } from '@/firebase-config';
+import {
+    db,
+    auth,
+    addUser,
+    addJournalEntry,
+    getEntryData,
+} from '@/firebase-config';
 import Home from './Home';
 import { collection } from 'firebase/firestore';
 
@@ -27,9 +33,11 @@ const content: string =
 const TipTap = () => {
     const [contentState, setContentState] = useState<string>(content);
     const [user, loading, error] = useAuthState(auth);
+    const [numEntries, setNumEntries] = useState(0);
 
     useEffect(() => {
         addUser(user);
+        const data = getEntryData(user);
     }, [user]);
 
     const editor = useEditor({
@@ -53,6 +61,7 @@ const TipTap = () => {
         onUpdate: ({ editor }) => {
             const html: string = editor.getHTML();
             setContentState(html);
+            addJournalEntry(user, html);
         },
     });
 
