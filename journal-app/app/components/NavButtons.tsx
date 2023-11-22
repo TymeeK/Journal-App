@@ -1,18 +1,36 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { auth } from '@/firebase-config';
-import { useSignOut, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import {
+    useSignOut,
+    useSignInWithGoogle,
+    useIdToken,
+} from 'react-firebase-hooks/auth';
 
 const NavButtons = () => {
     const [signOut, loadSignout, signOuterror] = useSignOut(auth);
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+    const [userId, idLoading, idError] = useIdToken(auth);
+
+    if (idLoading || loading) {
+        return (
+            <div className='flex justify-center items-center'>
+                <div>
+                    <span className='loading loading-spinner loading-lg'></span>
+                </div>
+            </div>
+        );
+    }
+    if (error) {
+        console.error(error);
+    }
 
     return (
         <>
-            {user ? (
+            {userId ? (
                 <>
                     <button className='btn btn-ghost'>
-                        Welcome {user.user.displayName}!
+                        Welcome {userId.displayName}!
                     </button>
                     <button
                         className='btn btn-ghost'
@@ -26,7 +44,6 @@ const NavButtons = () => {
                 </>
             ) : (
                 <>
-                    {' '}
                     <button
                         className='btn btn-ghost'
                         onClick={() => signInWithGoogle()}
