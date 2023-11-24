@@ -49,12 +49,15 @@ export const updateJournalEntry = async (
 ) => {
     try {
         if (user === undefined || user === null) return;
+        const entryData = await getEntryData(user);
+        console.log(entryData?.entryList[0].num);
+
         const userRef = doc(db, 'entries', user.uid);
-        await updateDoc(userRef, {
-            entryList: arrayUnion({ num: 1, content: entry }),
-        });
+        // await updateDoc(userRef, {
+        //     entryList: arrayUnion({ num: 1, content: entry }),
+        // });
     } catch (error) {
-        console.error('Error loading document');
+        console.error('Error loading document', error);
     }
 };
 
@@ -66,13 +69,13 @@ export const addUser = async (user: User | null | undefined) => {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-            console.log('This user already exists');
-        } else {
-            const newDoc = await setDoc(doc(entryCollections, user.uid), {
-                user: user.displayName,
-                entryList: [],
-            });
+            return;
         }
+
+        const newDoc = await setDoc(doc(entryCollections, user.uid), {
+            user: user.displayName,
+            entryList: [{ num: 1, entryContent: '' }],
+        });
     } catch (e) {
         console.error('Error loading document: ', e);
     }

@@ -22,7 +22,7 @@ import {
     db,
     auth,
     addUser,
-    addJournalEntry,
+    updateJournalEntry,
     getEntryData,
 } from '@/firebase-config';
 import Home from './Home';
@@ -37,7 +37,7 @@ const TipTap = () => {
 
     useEffect(() => {
         addUser(user);
-        const data = getEntryData(user);
+        // const data = getEntryData(user);
     }, [user]);
 
     const editor = useEditor({
@@ -61,7 +61,7 @@ const TipTap = () => {
         onUpdate: ({ editor }) => {
             const html: string = editor.getHTML();
             setContentState(html);
-            addJournalEntry(user, html);
+            updateJournalEntry(user, html);
         },
     });
 
