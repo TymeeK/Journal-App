@@ -7,6 +7,7 @@ import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import Superscript from '@tiptap/extension-superscript';
 import SubScript from '@tiptap/extension-subscript';
+import Placeholder from '@tiptap/extension-placeholder';
 import { useEffect, useState } from 'react';
 import { GrBold, GrItalic, GrStrikeThrough, GrUnderline } from 'react-icons/gr';
 import { FaBold, FaItalic, FaUnderline } from 'react-icons/fa';
@@ -26,13 +27,10 @@ import {
 } from '@/firebase-config';
 import Home from './Home';
 import { DocumentData } from 'firebase/firestore';
-
-const content: string =
-    '<h2 style="text-align: center;">Welcome to Mantine rich text editor</h2><p><code>RichTextEditor</code> component focuses on usability and is designed to be as simple as possible to bring a familiar editing experience to regular users. <code>RichTextEditor</code> is based on <a href="https://tiptap.dev/" rel="noopener noreferrer" target="_blank">Tiptap.dev</a> and supports all of its features:</p><ul><li>General text formatting: <strong>bold</strong>, <em>italic</em>, <u>underline</u>, <s>strike-through</s> </li><li>Headings (h1-h6)</li><li>Sub and super scripts (<sup>&lt;sup /&gt;</sup> and <sub>&lt;sub /&gt;</sub> tags)</li><li>Ordered and bullet lists</li><li>Text align&nbsp;</li><li>And all <a href="https://tiptap.dev/extensions" target="_blank" rel="noopener noreferrer">other extensions</a></li></ul>';
 const TipTap = () => {
-    const [contentState, setContentState] = useState<string>(content);
-    const [user, loading, error] = useIdToken(auth);
     const [numEntries, setNumEntries] = useState<number>(0);
+    const [contentState, setContentState] = useState<string>('');
+    const [user, loading, error] = useIdToken(auth);
 
     useEffect(() => {
         addUser(user);
@@ -62,8 +60,10 @@ const TipTap = () => {
             TextAlign.configure({
                 types: ['heading', 'paragraph'],
             }),
+            Placeholder.configure({
+                placeholder: `Journal entry...`,
+            }),
         ],
-        content,
         onUpdate: ({ editor }) => {
             const html: string = editor.getHTML();
             setContentState(html);
@@ -94,6 +94,7 @@ const TipTap = () => {
                             updateJournalEntry(user, contentState);
                         }
                     }}
+                    data-placeholder='sdsdsd'
                 >
                     <div
                         className='flex justify-center items-center padding-5 
