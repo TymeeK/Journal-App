@@ -6,11 +6,13 @@ import {
     useSignInWithGoogle,
     useIdToken,
 } from 'react-firebase-hooks/auth';
+import { useRouter } from 'next/navigation';
 
 const NavButtons = () => {
     const [signOut, loadSignout, signOuterror] = useSignOut(auth);
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
     const [userId, idLoading, idError] = useIdToken(auth);
+    const router = useRouter();
 
     if (idLoading || loading) {
         return (
@@ -36,7 +38,7 @@ const NavButtons = () => {
                         className='btn btn-ghost'
                         onClick={async () => {
                             await signOut();
-                            window.location.reload();
+                            router.push('/');
                         }}
                     >
                         Sign out

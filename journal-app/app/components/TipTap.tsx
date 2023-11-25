@@ -16,28 +16,34 @@ import {
     CiTextAlignRight,
 } from 'react-icons/ci';
 import { LuHeading1, LuHeading2, LuHeading3 } from 'react-icons/lu';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { useCollection } from 'react-firebase-hooks/firestore';
+import { useAuthState, useIdToken } from 'react-firebase-hooks/auth';
 import {
     db,
     auth,
     addUser,
-    addJournalEntry,
+    updateJournalEntry,
     getEntryData,
 } from '@/firebase-config';
 import Home from './Home';
-import { collection } from 'firebase/firestore';
+import { DocumentData } from 'firebase/firestore';
 
 const content: string =
     '<h2 style="text-align: center;">Welcome to Mantine rich text editor</h2><p><code>RichTextEditor</code> component focuses on usability and is designed to be as simple as possible to bring a familiar editing experience to regular users. <code>RichTextEditor</code> is based on <a href="https://tiptap.dev/" rel="noopener noreferrer" target="_blank">Tiptap.dev</a> and supports all of its features:</p><ul><li>General text formatting: <strong>bold</strong>, <em>italic</em>, <u>underline</u>, <s>strike-through</s> </li><li>Headings (h1-h6)</li><li>Sub and super scripts (<sup>&lt;sup /&gt;</sup> and <sub>&lt;sub /&gt;</sub> tags)</li><li>Ordered and bullet lists</li><li>Text align&nbsp;</li><li>And all <a href="https://tiptap.dev/extensions" target="_blank" rel="noopener noreferrer">other extensions</a></li></ul>';
 const TipTap = () => {
     const [contentState, setContentState] = useState<string>(content);
-    const [user, loading, error] = useAuthState(auth);
-    const [numEntries, setNumEntries] = useState(0);
+    const [user, loading, error] = useIdToken(auth);
+    const [numEntries, setNumEntries] = useState<number>(0);
 
     useEffect(() => {
         addUser(user);
-        const data = getEntryData(user);
+        const getNumEntries = async () => {
+            const entryNum: DocumentData | undefined = await getEntryData(user);
+            if (entryNum === undefined) return;
+            const entry: DocumentData = entryNum.entryList.length;
+            setNumEntries(entryNum.entryList[0].num);
+        };
+
+        getNumEntries();
     }, [user]);
 
     const editor = useEditor({
@@ -61,7 +67,6 @@ const TipTap = () => {
         onUpdate: ({ editor }) => {
             const html: string = editor.getHTML();
             setContentState(html);
-            addJournalEntry(user, html);
         },
     });
 
@@ -80,9 +85,15 @@ const TipTap = () => {
     } else {
         return (
             <>
+                <h1>Journal Entry {numEntries}</h1>
                 <EditorContent
                     editor={editor}
                     className='max-w-screen-md border border-primary bg-white  min-w-[768px] pl-5 pr-5 text-primary-content'
+                    onKeyDown={(event) => {
+                        if (event.ctrlKey && event.key === 's') {
+                            updateJournalEntry(user, contentState);
+                        }
+                    }}
                 >
                     <div
                         className='flex justify-center items-center padding-5 
@@ -295,6 +306,16 @@ const TipTap = () => {
                                 }
                             >
                                 <LuHeading3 />
+                            </button>
+                        </div>
+                        <div className='join'>
+                            <button
+                                onClick={() => {
+                                    updateJournalEntry(user, contentState);
+                                }}
+                                className='btn join-item'
+                            >
+                                Save
                             </button>
                         </div>
                     </div>

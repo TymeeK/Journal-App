@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { Auth, getAuth, GoogleAuthProvider, User } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth/cordova';
 import {
     addDoc,
     Firestore,
@@ -11,7 +12,13 @@ import {
     getDoc,
     updateDoc,
     arrayUnion,
+    query,
+    where,
+    DocumentData,
+    arrayRemove,
 } from 'firebase/firestore';
+import { Content } from 'next/font/google';
+import { userAgent } from 'next/server';
 
 const fireBaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -49,12 +56,17 @@ export const updateJournalEntry = async (
 ) => {
     try {
         if (user === undefined || user === null) return;
+        const entryData: DocumentData | undefined = await getEntryData(user);
+        if (entryData === undefined) return;
+
         const userRef = doc(db, 'entries', user.uid);
         await updateDoc(userRef, {
-            entryList: arrayUnion({ num: 1, content: entry }),
+            entryList: [
+                { num: entryData?.entryList[0].num, entryContent: entry },
+            ],
         });
     } catch (error) {
-        console.error('Error loading document');
+        console.error('Error loading document', error);
     }
 };
 
@@ -66,13 +78,13 @@ export const addUser = async (user: User | null | undefined) => {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-            console.log('This user already exists');
-        } else {
-            const newDoc = await setDoc(doc(entryCollections, user.uid), {
-                user: user.displayName,
-                entryList: [],
-            });
+            return;
         }
+
+        const newDoc = await setDoc(doc(entryCollections, user.uid), {
+            user: user.displayName,
+            entryList: [{ num: 1, entryContent: '' }],
+        });
     } catch (e) {
         console.error('Error loading document: ', e);
     }
