@@ -16,6 +16,9 @@ import {
     where,
     DocumentData,
     arrayRemove,
+    increment,
+    DocumentReference,
+    QuerySnapshot,
 } from 'firebase/firestore';
 import { Content } from 'next/font/google';
 import { userAgent } from 'next/server';
@@ -34,20 +37,39 @@ const app = initializeApp(fireBaseConfig);
 export const auth: Auth = getAuth(app);
 export const provider: GoogleAuthProvider = new GoogleAuthProvider();
 export const db: Firestore = getFirestore(app);
-const entryCollections = collection(db, 'entries');
-const ENTRIES: string = 'entries';
+const userCollections = collection(db, 'users');
+export let CURRENT_JOURNAL = '';
+export const createEntry = async (user: User | null | undefined) => {
+    try {
+        if (user === null || user === undefined) return;
 
-export const getEntryData = async (user: User | null | undefined) => {
+        const entryCollections = collection(
+            userCollections,
+            user.uid,
+            'Journal Entries'
+        );
+        const currentDoc = await addDoc(entryCollections, {
+            content: '',
+        });
+        CURRENT_JOURNAL = currentDoc.id;
+    } catch (e) {
+        console.error('Error loading document: ', e);
+    }
+};
+
+export const readEntry = async (user: User | null | undefined) => {
     if (user === null || user === undefined) return;
 
-    const docRef = doc(db, ENTRIES, user.uid);
+    const docRef: DocumentReference<DocumentData, DocumentData> = doc(
+        db,
+        'users',
+        user.uid,
+        'Journal Entries'
+    );
     const docSnap = await getDoc(docRef);
-
-    if (!docSnap.exists()) {
-        console.log('No such document!');
-        return;
+    if (docSnap.exists()) {
+        console.log(docSnap.data());
     }
-    return docSnap.data();
 };
 
 export const updateJournalEntry = async (
@@ -56,34 +78,32 @@ export const updateJournalEntry = async (
 ) => {
     try {
         if (user === undefined || user === null) return;
-        const entryData: DocumentData | undefined = await getEntryData(user);
+        const entryData: DocumentData | undefined = await readEntry(user);
         if (entryData === undefined) return;
-
-        const userRef = doc(db, 'entries', user.uid);
+        const userRef = doc(db, 'users', user.uid);
         await updateDoc(userRef, {
-            entryList: [
-                { num: entryData?.entryList[0].num, entryContent: entry },
-            ],
+            entries: [{ content: entry }],
         });
     } catch (error) {
         console.error('Error loading document', error);
     }
 };
 
-export const addUser = async (user: User | null | undefined) => {
+export const deleteEntry = async (user: User | null | undefined) => {};
+
+export const createUser = async (user: User | null | undefined) => {
     try {
         if (user === null || user === undefined) return;
 
-        const docRef = doc(db, 'entries', user.uid);
+        const docRef = doc(db, 'users', user.uid);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
             return;
         }
 
-        const newDoc = await setDoc(doc(entryCollections, user.uid), {
+        const newDoc = await setDoc(doc(userCollections, user.uid), {
             user: user.displayName,
-            entryList: [{ num: 1, entryContent: '' }],
         });
     } catch (e) {
         console.error('Error loading document: ', e);

@@ -40,6 +40,7 @@ const NavBar = () => {
                         </li>
                     </ul>
                 </div>
+                <button className='btn btn-ghost'>Create new journal</button>
             </div>
             <div className='navbar-center'>
                 <Link href='/' className='btn btn-ghost text-xl'>

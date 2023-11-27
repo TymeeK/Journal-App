@@ -1,8 +1,8 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import splash from '../Images/splash.jpg';
 import { useIdToken, useSignInWithGoogle } from 'react-firebase-hooks/auth';
-import { addUser, auth } from '@/firebase-config';
+import { auth, createEntry, createUser } from '@/firebase-config';
 import Loading from '../login/loading';
 import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
@@ -41,13 +41,18 @@ const HomePage = () => {
     const router: AppRouterInstance = useRouter();
     const [userID, idLoading, idError] = useIdToken(auth);
 
+    useEffect(() => {
+        createUser(userID);
+    }, [userID]);
+
     const LOGGED_OUT = {
         WELCOME: 'Hello there welcome to my Journal App',
         MESSAGE: 'Click to login and get started',
         BUTTON_MESSAGE: 'Get started',
     };
 
-    const navigateToJournal = () => {
+    const navigateToJournal = async () => {
+        await createEntry(userID);
         router.push('/journal');
     };
     const LOGGED_IN = {

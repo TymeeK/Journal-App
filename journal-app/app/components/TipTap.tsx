@@ -17,32 +17,15 @@ import {
     CiTextAlignRight,
 } from 'react-icons/ci';
 import { LuHeading1, LuHeading2, LuHeading3 } from 'react-icons/lu';
-import { useAuthState, useIdToken } from 'react-firebase-hooks/auth';
-import {
-    db,
-    auth,
-    addUser,
-    updateJournalEntry,
-    getEntryData,
-} from '@/firebase-config';
+import { useIdToken } from 'react-firebase-hooks/auth';
+import { auth, readEntry, updateJournalEntry } from '@/firebase-config';
 import Home from './Home';
-import { DocumentData } from 'firebase/firestore';
 const TipTap = () => {
-    const [numEntries, setNumEntries] = useState<number>(0);
     const [contentState, setContentState] = useState<string>('');
     const [user, loading, error] = useIdToken(auth);
-
-    useEffect(() => {
-        addUser(user);
-        const getNumEntries = async () => {
-            const entryNum: DocumentData | undefined = await getEntryData(user);
-            if (entryNum === undefined) return;
-            const entry: DocumentData = entryNum.entryList.length;
-            setNumEntries(entryNum.entryList[0].num);
-        };
-
-        getNumEntries();
-    }, [user]);
+    // useEffect(() => {
+    //     readEntry(user);
+    // }, [user]);
 
     const editor = useEditor({
         extensions: [
@@ -85,7 +68,6 @@ const TipTap = () => {
     } else {
         return (
             <>
-                <h1>Journal Entry {numEntries}</h1>
                 <EditorContent
                     editor={editor}
                     className='max-w-screen-md border border-primary bg-white  min-w-[768px] pl-5 pr-5 text-primary-content'
