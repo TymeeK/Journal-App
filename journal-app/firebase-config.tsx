@@ -38,7 +38,10 @@ export const auth: Auth = getAuth(app);
 export const provider: GoogleAuthProvider = new GoogleAuthProvider();
 export const db: Firestore = getFirestore(app);
 const userCollections = collection(db, 'users');
+const JOURNAL_COLL: string = 'Journal Entries';
+const USER_COLL: string = 'users';
 export let CURRENT_JOURNAL = '';
+
 export const createEntry = async (user: User | null | undefined) => {
     try {
         if (user === null || user === undefined) return;
@@ -46,7 +49,7 @@ export const createEntry = async (user: User | null | undefined) => {
         const entryCollections = collection(
             userCollections,
             user.uid,
-            'Journal Entries'
+            JOURNAL_COLL
         );
         const currentDoc = await addDoc(entryCollections, {
             content: '',
@@ -57,16 +60,15 @@ export const createEntry = async (user: User | null | undefined) => {
     }
 };
 
-export const readEntry = async (user: User | null | undefined) => {
+export const readEntry = async (
+    user: User | null | undefined,
+    current: string
+) => {
     if (user === null || user === undefined) return;
 
-    const docRef: DocumentReference<DocumentData, DocumentData> = doc(
-        db,
-        'users',
-        user.uid,
-        'Journal Entries'
+    const docSnap = await getDoc(
+        doc(db, USER_COLL, user.uid, JOURNAL_COLL, CURRENT_JOURNAL)
     );
-    const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
         console.log(docSnap.data());
     }
@@ -78,7 +80,7 @@ export const updateJournalEntry = async (
 ) => {
     try {
         if (user === undefined || user === null) return;
-        const entryData: DocumentData | undefined = await readEntry(user);
+        // const entryData: DocumentData | undefined = await readEntry(user);
         if (entryData === undefined) return;
         const userRef = doc(db, 'users', user.uid);
         await updateDoc(userRef, {

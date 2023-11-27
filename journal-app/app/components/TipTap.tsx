@@ -18,14 +18,20 @@ import {
 } from 'react-icons/ci';
 import { LuHeading1, LuHeading2, LuHeading3 } from 'react-icons/lu';
 import { useIdToken } from 'react-firebase-hooks/auth';
-import { auth, readEntry, updateJournalEntry } from '@/firebase-config';
+import {
+    auth,
+    readEntry,
+    updateJournalEntry,
+    CURRENT_JOURNAL,
+} from '@/firebase-config';
 import Home from './Home';
 const TipTap = () => {
     const [contentState, setContentState] = useState<string>('');
     const [user, loading, error] = useIdToken(auth);
-    // useEffect(() => {
-    //     readEntry(user);
-    // }, [user]);
+    const [currentJournal, setJournal] = useState(CURRENT_JOURNAL);
+    useEffect(() => {
+        readEntry(user, currentJournal);
+    }, [user]);
 
     const editor = useEditor({
         extensions: [
