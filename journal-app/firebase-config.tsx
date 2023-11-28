@@ -1,27 +1,15 @@
 import { initializeApp } from 'firebase/app';
 import { Auth, getAuth, GoogleAuthProvider, User } from 'firebase/auth';
-import { onAuthStateChanged } from 'firebase/auth/cordova';
 import {
     addDoc,
     Firestore,
     getFirestore,
     setDoc,
     collection,
-    getDocs,
     doc,
     getDoc,
     updateDoc,
-    arrayUnion,
-    query,
-    where,
-    DocumentData,
-    arrayRemove,
-    increment,
-    DocumentReference,
-    QuerySnapshot,
 } from 'firebase/firestore';
-import { Content } from 'next/font/google';
-import { userAgent } from 'next/server';
 
 const fireBaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -54,7 +42,7 @@ export const createEntry = async (user: User | null | undefined) => {
         const currentDoc = await addDoc(entryCollections, {
             content: '',
         });
-        CURRENT_JOURNAL = currentDoc.id;
+        return currentDoc.id;
     } catch (e) {
         console.error('Error loading document: ', e);
     }
@@ -62,16 +50,17 @@ export const createEntry = async (user: User | null | undefined) => {
 
 export const readEntry = async (
     user: User | null | undefined,
-    current: string
+    journalID: string
 ) => {
     if (user === null || user === undefined) return;
-
     const docSnap = await getDoc(
-        doc(db, USER_COLL, user.uid, JOURNAL_COLL, CURRENT_JOURNAL)
+        doc(db, USER_COLL, user.uid, JOURNAL_COLL, journalID)
     );
-    if (docSnap.exists()) {
-        console.log(docSnap.data());
+    if (!docSnap.exists()) {
+        return;
     }
+    console.log(docSnap.data());
+    return docSnap.data();
 };
 
 export const updateJournalEntry = async (
@@ -80,8 +69,6 @@ export const updateJournalEntry = async (
 ) => {
     try {
         if (user === undefined || user === null) return;
-        // const entryData: DocumentData | undefined = await readEntry(user);
-        if (entryData === undefined) return;
         const userRef = doc(db, 'users', user.uid);
         await updateDoc(userRef, {
             entries: [{ content: entry }],

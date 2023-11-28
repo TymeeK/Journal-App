@@ -1,5 +1,5 @@
 'use client';
-import { RichTextEditor, Link } from '@mantine/tiptap';
+import { Link } from '@mantine/tiptap';
 import { EditorContent, useEditor } from '@tiptap/react';
 import Highlight from '@tiptap/extension-highlight';
 import StarterKit from '@tiptap/starter-kit';
@@ -18,19 +18,22 @@ import {
 } from 'react-icons/ci';
 import { LuHeading1, LuHeading2, LuHeading3 } from 'react-icons/lu';
 import { useIdToken } from 'react-firebase-hooks/auth';
-import {
-    auth,
-    readEntry,
-    updateJournalEntry,
-    CURRENT_JOURNAL,
-} from '@/firebase-config';
+import { auth, readEntry, updateJournalEntry } from '@/firebase-config';
 import Home from './Home';
+
 const TipTap = () => {
     const [contentState, setContentState] = useState<string>('');
     const [user, loading, error] = useIdToken(auth);
-    const [currentJournal, setJournal] = useState(CURRENT_JOURNAL);
+    const [journalID, setJournalID] = useState('');
+    let item: string | null = '';
+    if (typeof window !== 'undefined') {
+        if (item === null) return;
+        item = localStorage.getItem('journalID');
+    }
+
     useEffect(() => {
-        readEntry(user, currentJournal);
+        if (item === null) return;
+        readEntry(user, item);
     }, [user]);
 
     const editor = useEditor({

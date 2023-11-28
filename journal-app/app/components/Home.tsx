@@ -52,7 +52,10 @@ const HomePage = () => {
     };
 
     const navigateToJournal = async () => {
-        await createEntry(userID);
+        const entryID: string | undefined = await createEntry(userID);
+        if (entryID === undefined) return;
+
+        localStorage.setItem('journalID', entryID);
         router.push('/journal');
     };
     const LOGGED_IN = {
