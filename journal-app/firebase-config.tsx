@@ -81,7 +81,10 @@ export const updateEntry = async (
     }
 };
 
-export const deleteEntry = async (user: User | null | undefined) => {};
+export const deleteEntry = async (
+    user: User | null | undefined,
+    journalID: string
+) => {};
 
 export const createUser = async (user: User | null | undefined) => {
     try {

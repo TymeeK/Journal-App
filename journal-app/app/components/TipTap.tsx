@@ -24,7 +24,6 @@ import { DocumentData } from 'firebase/firestore';
 
 const TipTap = () => {
     let content = 'Test';
-    const [contentState, setContentState] = useState<string>(content);
     const [user, loading, error] = useIdToken(auth);
     let journalID: string | null = '';
     if (typeof window !== 'undefined') {
@@ -54,7 +53,8 @@ const TipTap = () => {
         ],
         onUpdate: ({ editor }) => {
             const html: string = editor.getHTML();
-            setContentState(html);
+            if (journalID === null) return;
+            updateEntry(user, html, journalID);
         },
     });
 
