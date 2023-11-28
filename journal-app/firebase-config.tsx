@@ -9,6 +9,8 @@ import {
     doc,
     getDoc,
     updateDoc,
+    CollectionReference,
+    DocumentData,
 } from 'firebase/firestore';
 
 const fireBaseConfig = {
@@ -25,10 +27,10 @@ const app = initializeApp(fireBaseConfig);
 export const auth: Auth = getAuth(app);
 export const provider: GoogleAuthProvider = new GoogleAuthProvider();
 export const db: Firestore = getFirestore(app);
-const userCollections = collection(db, 'users');
+const userCollections: CollectionReference<DocumentData, DocumentData> =
+    collection(db, 'users');
 const JOURNAL_COLL: string = 'Journal Entries';
 const USER_COLL: string = 'users';
-export let CURRENT_JOURNAL = '';
 
 export const createEntry = async (user: User | null | undefined) => {
     try {
@@ -63,15 +65,16 @@ export const readEntry = async (
     return docSnap.data();
 };
 
-export const updateJournalEntry = async (
+export const updateEntry = async (
     user: User | null | undefined,
-    entry: string
+    entry: string,
+    journalID: string
 ) => {
     try {
         if (user === undefined || user === null) return;
-        const userRef = doc(db, 'users', user.uid);
-        await updateDoc(userRef, {
-            entries: [{ content: entry }],
+        const entryRef = doc(db, USER_COLL, user.uid, JOURNAL_COLL, journalID);
+        await updateDoc(entryRef, {
+            content: entry,
         });
     } catch (error) {
         console.error('Error loading document', error);

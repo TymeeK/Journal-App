@@ -18,23 +18,19 @@ import {
 } from 'react-icons/ci';
 import { LuHeading1, LuHeading2, LuHeading3 } from 'react-icons/lu';
 import { useIdToken } from 'react-firebase-hooks/auth';
-import { auth, readEntry, updateJournalEntry } from '@/firebase-config';
+import { auth, readEntry, updateEntry } from '@/firebase-config';
 import Home from './Home';
+import { DocumentData } from 'firebase/firestore';
 
 const TipTap = () => {
-    const [contentState, setContentState] = useState<string>('');
+    let content = 'Test';
+    const [contentState, setContentState] = useState<string>(content);
     const [user, loading, error] = useIdToken(auth);
-    const [journalID, setJournalID] = useState('');
-    let item: string | null = '';
+    let journalID: string | null = '';
     if (typeof window !== 'undefined') {
-        if (item === null) return;
-        item = localStorage.getItem('journalID');
+        if (journalID === null) return;
+        journalID = localStorage.getItem('journalID');
     }
-
-    useEffect(() => {
-        if (item === null) return;
-        readEntry(user, item);
-    }, [user]);
 
     const editor = useEditor({
         extensions: [
@@ -62,6 +58,19 @@ const TipTap = () => {
         },
     });
 
+    useEffect(() => {
+        const getContent = async () => {
+            if (journalID === null) return;
+            const data: DocumentData | undefined = await readEntry(
+                user,
+                journalID
+            );
+            if (data === undefined) return;
+            editor?.commands.setContent(data.content);
+        };
+        getContent();
+    }, [user]);
+
     if (loading) {
         return (
             <div className='w-screen h-screen flex justify-center items-center'>
@@ -82,7 +91,8 @@ const TipTap = () => {
                     className='max-w-screen-md border border-primary bg-white  min-w-[768px] pl-5 pr-5 text-primary-content'
                     onKeyDown={(event) => {
                         if (event.ctrlKey && event.key === 's') {
-                            updateJournalEntry(user, contentState);
+                            if (journalID === null) return;
+                            updateEntry(user, contentState, journalID);
                         }
                     }}
                     data-placeholder='sdsdsd'
@@ -303,7 +313,8 @@ const TipTap = () => {
                         <div className='join'>
                             <button
                                 onClick={() => {
-                                    updateJournalEntry(user, contentState);
+                                    if (journalID === null) return;
+                                    updateEntry(user, contentState, journalID);
                                 }}
                                 className='btn join-item'
                             >
