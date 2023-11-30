@@ -99,22 +99,22 @@ export const deleteEntry = async (
 export const readAllEntries = async (user: User | null | undefined) => {
     try {
         const entry: entryObject[] = [];
-        const singleEntry: entryObject = {
-            id: '',
-            title: '',
-            content: '',
-        };
+
         if (user === null || user === undefined) return;
         const querySnapshot = await getDocs(
             collection(db, USER_COLL, user.uid, JOURNAL_COLL)
         );
         querySnapshot.forEach((doc) => {
+            const singleEntry: entryObject = {
+                id: '',
+                title: '',
+                content: '',
+            };
             singleEntry.id = doc.id;
             singleEntry.title = doc.data().title;
             singleEntry.content = doc.data().content;
             entry.push(singleEntry);
         });
-        console.log(entry);
         return entry;
     } catch (error) {
         console.error('Error loading document');
