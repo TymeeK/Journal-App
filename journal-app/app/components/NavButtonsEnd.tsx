@@ -8,7 +8,7 @@ import {
 } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/navigation';
 
-const NavButtons = () => {
+const NavButtonsEnd = () => {
     const [signOut, loadSignout, signOuterror] = useSignOut(auth);
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
     const [userId, idLoading, idError] = useIdToken(auth);
@@ -58,4 +58,4 @@ const NavButtons = () => {
     );
 };
 
-export default NavButtons;
+export default NavButtonsEnd;

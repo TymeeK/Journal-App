@@ -10,7 +10,7 @@ import SubScript from '@tiptap/extension-subscript';
 import Placeholder from '@tiptap/extension-placeholder';
 import { useEffect, useState } from 'react';
 import { GrBold, GrItalic, GrStrikeThrough, GrUnderline } from 'react-icons/gr';
-import { FaBold, FaItalic, FaUnderline } from 'react-icons/fa';
+import { FaBold, FaItalic, FaRegSave, FaUnderline } from 'react-icons/fa';
 import {
     CiTextAlignCenter,
     CiTextAlignLeft,
@@ -312,7 +312,9 @@ const TipTap = () => {
                             </button>
                         </div>
                         <div className='join'>
-                            <button className='btn join-item'>Save</button>
+                            <button className='btn join-item'>
+                                <FaRegSave />
+                            </button>
                         </div>
                     </div>
                     <div className='border-b-2 border-black-500 mb-5 pb-5'>
