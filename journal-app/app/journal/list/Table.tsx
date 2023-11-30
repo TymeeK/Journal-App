@@ -1,5 +1,10 @@
 'use client';
-import { auth, entryObject, readAllEntries } from '@/firebase-config';
+import {
+    auth,
+    deleteEntry,
+    entryObject,
+    readAllEntries,
+} from '@/firebase-config';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useIdToken } from 'react-firebase-hooks/auth';
@@ -17,6 +22,12 @@ const Table = () => {
         };
         getAllEntries();
     }, [user]);
+
+    const onDelete = (e) => {
+        const dataId = e.target.attributes.getNamedItem('data-id').value;
+        deleteEntry(user, dataId);
+        window.location.reload();
+    };
 
     return (
         <div className='overflow-x-auto'>
@@ -38,8 +49,19 @@ const Table = () => {
                                     <td>{entry.title}</td>
                                     <td>
                                         <Link href={`/journal/${entry.id}`}>
-                                            View
+                                            <button className='btn btn-ghost'>
+                                                View
+                                            </button>
                                         </Link>{' '}
+                                    </td>
+                                    <td>
+                                        <button
+                                            className='btn btn-ghost'
+                                            onClick={onDelete}
+                                            data-id={entry.id}
+                                        >
+                                            Delete
+                                        </button>
                                     </td>
                                 </tr>
                             </React.Fragment>

@@ -13,6 +13,7 @@ import {
     DocumentData,
     query,
     getDocs,
+    deleteDoc,
 } from 'firebase/firestore';
 
 const fireBaseConfig = {
@@ -94,7 +95,14 @@ export const updateEntry = async (
 export const deleteEntry = async (
     user: User | null | undefined,
     journalID: string
-) => {};
+) => {
+    try {
+        if (user === null || user === undefined) return;
+        await deleteDoc(doc(db, USER_COLL, user.uid, JOURNAL_COLL, journalID));
+    } catch (e) {
+        console.error('The document failed to load', e);
+    }
+};
 
 export const readAllEntries = async (user: User | null | undefined) => {
     try {
