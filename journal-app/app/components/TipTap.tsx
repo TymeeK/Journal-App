@@ -21,16 +21,15 @@ import { useIdToken } from 'react-firebase-hooks/auth';
 import { auth, readEntry, updateEntry } from '@/firebase-config';
 import Home from './Home';
 import { DocumentData } from 'firebase/firestore';
+import { useParams } from 'next/navigation';
 
 const TipTap = () => {
-    let content = 'Test';
     const [user, loading, error] = useIdToken(auth);
     const [title, setTitle] = useState('');
-    let journalID: string | null = '';
-    if (typeof window !== 'undefined') {
-        if (journalID === null) return;
-        journalID = localStorage.getItem('journalID');
-    }
+    const [content, setContent] = useState('');
+    const params = useParams();
+    let idTemp: string | string[] = params.id;
+    let id = idTemp as string;
 
     const editor = useEditor({
         extensions: [
@@ -54,24 +53,20 @@ const TipTap = () => {
         ],
         onUpdate: ({ editor }) => {
             const html: string = editor.getHTML();
-            if (journalID === null) return;
-            updateEntry(user, html, journalID);
+            setContent(html);
         },
     });
 
     useEffect(() => {
         const getContent = async () => {
-            if (journalID === null) return;
-            const data: DocumentData | undefined = await readEntry(
-                user,
-                journalID
-            );
+            const data: DocumentData | undefined = await readEntry(user, id);
             if (data === undefined) return;
             editor?.commands.setContent(data.content);
+            setContent(data.content);
             if (data.title !== '') setTitle(data.title);
         };
         getContent();
-    }, [user]);
+    }, [user, editor]);
 
     if (loading) {
         return (
@@ -92,9 +87,8 @@ const TipTap = () => {
                     editor={editor}
                     className='max-w-screen-md border border-primary bg-white  min-w-[768px] pl-5 pr-5 text-primary-content'
                     onKeyDown={(e) => {
-                        if (journalID === null) return;
                         if (e.ctrlKey && e.key === 's') {
-                            updateEntry(user, journalID, contentState, title);
+                            updateEntry(user, id, content, title);
                         }
                     }}
                 >

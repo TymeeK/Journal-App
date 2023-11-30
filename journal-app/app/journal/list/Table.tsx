@@ -1,5 +1,6 @@
 'use client';
 import { auth, entryObject, readAllEntries } from '@/firebase-config';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useIdToken } from 'react-firebase-hooks/auth';
 
@@ -12,9 +13,7 @@ const Table = () => {
         const getAllEntries = async () => {
             const temp: entryObject[] | undefined = await readAllEntries(user);
             if (temp === undefined) return;
-            console.log(temp);
             setEntries(temp);
-            console.log(entries);
         };
         getAllEntries();
     }, [user]);
@@ -26,17 +25,22 @@ const Table = () => {
                     <tr>
                         <th></th>
                         <th>Journal Title</th>
+                        <th>View Jounal</th>
+                        <th>Delete Journal</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {/* row 1 */}
-
                     {entries.map((entry, index) => {
                         return (
                             <React.Fragment key={entry.id}>
                                 <tr className='hover'>
                                     <th>{index + 1}</th>
                                     <td>{entry.title}</td>
+                                    <td>
+                                        <Link href={`/journal/${entry.id}`}>
+                                            View
+                                        </Link>{' '}
+                                    </td>
                                 </tr>
                             </React.Fragment>
                         );

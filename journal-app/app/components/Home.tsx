@@ -56,7 +56,7 @@ const HomePage = () => {
         if (entryID === undefined) return;
 
         localStorage.setItem('journalID', entryID);
-        router.push('/journal');
+        router.push(`/journal/${entryID}`);
     };
     const LOGGED_IN = {
         WELCOME: `Hello there ${userID?.displayName}`,
