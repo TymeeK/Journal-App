@@ -11,6 +11,8 @@ import {
     updateDoc,
     CollectionReference,
     DocumentData,
+    query,
+    getDocs,
 } from 'firebase/firestore';
 
 const fireBaseConfig = {
@@ -31,6 +33,12 @@ const userCollections: CollectionReference<DocumentData, DocumentData> =
     collection(db, 'users');
 const JOURNAL_COLL: string = 'Journal Entries';
 const USER_COLL: string = 'users';
+
+export interface entryObject {
+    id: string;
+    title: string;
+    content: string;
+}
 
 export const createEntry = async (user: User | null | undefined) => {
     try {
@@ -87,6 +95,31 @@ export const deleteEntry = async (
     user: User | null | undefined,
     journalID: string
 ) => {};
+
+export const readAllEntries = async (user: User | null | undefined) => {
+    try {
+        const entry: entryObject[] = [];
+        const singleEntry: entryObject = {
+            id: '',
+            title: '',
+            content: '',
+        };
+        if (user === null || user === undefined) return;
+        const querySnapshot = await getDocs(
+            collection(db, USER_COLL, user.uid, JOURNAL_COLL)
+        );
+        querySnapshot.forEach((doc) => {
+            singleEntry.id = doc.id;
+            singleEntry.title = doc.data().title;
+            singleEntry.content = doc.data().content;
+            entry.push(singleEntry);
+        });
+        console.log(entry);
+        return entry;
+    } catch (error) {
+        console.error('Error loading document');
+    }
+};
 
 export const createUser = async (user: User | null | undefined) => {
     try {
