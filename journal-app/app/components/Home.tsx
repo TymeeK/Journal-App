@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import splash from '../Images/splash.jpg';
 import { useIdToken, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { auth, createEntry, createUser } from '@/firebase-config';
-import Loading from '../login/loading';
+import Loading from './Loading';
 import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 

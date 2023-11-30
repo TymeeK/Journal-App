@@ -42,6 +42,7 @@ export const createEntry = async (user: User | null | undefined) => {
             JOURNAL_COLL
         );
         const currentDoc = await addDoc(entryCollections, {
+            title: '',
             content: '',
         });
         return currentDoc.id;
@@ -61,19 +62,20 @@ export const readEntry = async (
     if (!docSnap.exists()) {
         return;
     }
-    console.log(docSnap.data());
     return docSnap.data();
 };
 
 export const updateEntry = async (
     user: User | null | undefined,
+    journalID: string,
     entry: string,
-    journalID: string
+    title: string
 ) => {
     try {
         if (user === undefined || user === null) return;
         const entryRef = doc(db, USER_COLL, user.uid, JOURNAL_COLL, journalID);
         await updateDoc(entryRef, {
+            title: title,
             content: entry,
         });
     } catch (error) {

@@ -25,6 +25,7 @@ import { DocumentData } from 'firebase/firestore';
 const TipTap = () => {
     let content = 'Test';
     const [user, loading, error] = useIdToken(auth);
+    const [title, setTitle] = useState('');
     let journalID: string | null = '';
     if (typeof window !== 'undefined') {
         if (journalID === null) return;
@@ -67,6 +68,7 @@ const TipTap = () => {
             );
             if (data === undefined) return;
             editor?.commands.setContent(data.content);
+            if (data.title !== '') setTitle(data.title);
         };
         getContent();
     }, [user]);
@@ -89,13 +91,12 @@ const TipTap = () => {
                 <EditorContent
                     editor={editor}
                     className='max-w-screen-md border border-primary bg-white  min-w-[768px] pl-5 pr-5 text-primary-content'
-                    onKeyDown={(event) => {
-                        if (event.ctrlKey && event.key === 's') {
-                            if (journalID === null) return;
-                            updateEntry(user, contentState, journalID);
+                    onKeyDown={(e) => {
+                        if (journalID === null) return;
+                        if (e.ctrlKey && e.key === 's') {
+                            updateEntry(user, journalID, contentState, title);
                         }
                     }}
-                    data-placeholder='sdsdsd'
                 >
                     <div
                         className='flex justify-center items-center padding-5 
@@ -311,16 +312,19 @@ const TipTap = () => {
                             </button>
                         </div>
                         <div className='join'>
-                            <button
-                                onClick={() => {
-                                    if (journalID === null) return;
-                                    updateEntry(user, contentState, journalID);
-                                }}
-                                className='btn join-item'
-                            >
-                                Save
-                            </button>
+                            <button className='btn join-item'>Save</button>
                         </div>
+                    </div>
+                    <div className='border-b-2 border-black-500 mb-5 pb-5'>
+                        <input
+                            type='text'
+                            className='bg-white focus:outline-none text-3xl w-full'
+                            placeholder='Add A Title'
+                            value={title !== '' ? title : ''}
+                            onChange={(e) => {
+                                setTitle(e.target.value);
+                            }}
+                        />
                     </div>
                 </EditorContent>
             </>
