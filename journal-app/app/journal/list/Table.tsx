@@ -12,7 +12,7 @@ import { useIdToken } from 'react-firebase-hooks/auth';
 const Table = () => {
     const [user, loading, error] = useIdToken(auth);
     const [entries, setEntries] = useState<entryObject[]>([]);
-
+    const [entryToDelete, setEntryToDelete] = useState<string>('');
     useEffect(() => {
         if (user === null || user === undefined) return;
         const getAllEntries = async () => {
@@ -23,11 +23,14 @@ const Table = () => {
         getAllEntries();
     }, [user]);
 
-    const onDelete = (e) => {
-        const dataId = e.target.attributes.getNamedItem('data-id').value;
-        document.getElementById('my_modal_1').showModal();
-        // deleteEntry(user, dataId);
-        // window.location.reload();
+    const popModal = (e) => {
+        const deleteModal = document.getElementById('my_modal_1');
+        deleteModal.showModal();
+        setEntryToDelete(e.target.dataset.id);
+    };
+    const confirmDelete = () => {
+        deleteEntry(user, entryToDelete);
+        window.location.reload();
     };
 
     return (
@@ -54,56 +57,45 @@ const Table = () => {
                                                 <button className='btn btn-ghost'>
                                                     View
                                                 </button>
-                                            </Link>{' '}
+                                            </Link>
                                         </td>
                                         <td>
                                             <button
-                                                className='btn'
-                                                onClick={onDelete}
+                                                className='btn bg-primary'
+                                                onClick={popModal}
                                                 data-id={entry.id}
                                             >
                                                 Delete
                                             </button>
                                         </td>
                                     </tr>
-                                    <dialog id='my_modal_1' className='modal'>
-                                        <div className='modal-box'>
-                                            <h3 className='font-bold text-lg'>
-                                                Hello!
-                                            </h3>
-                                            <p className='py-4'>
-                                                Warning you are about to delete
-                                                one of your journal entries.
-                                                Proceed?
-                                            </p>
-                                            <div className='modal-action'>
-                                                <form method='dialog'>
-                                                    {/* if there is a button in form, it will close the modal */}
-                                                    <button
-                                                        className='btn bg-red-600 mr-5'
-                                                        onClick={() => {
-                                                            deleteEntry(
-                                                                user,
-                                                                entry.id
-                                                            );
-                                                            window.location.reload();
-                                                        }}
-                                                    >
-                                                        Delete
-                                                    </button>
-                                                    <button className='btn'>
-                                                        Cancel
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </dialog>
                                 </React.Fragment>
                             );
                         })}
                     </tbody>
                 </table>
             </div>
+            <dialog id='my_modal_1' className='modal'>
+                <div className='modal-box'>
+                    <h3 className='font-bold text-lg'>Hello!</h3>
+                    <p className='py-4'>
+                        Warning you are about to delete one of your journal
+                        entries. Proceed?
+                    </p>
+                    <div className='modal-action'>
+                        <form method='dialog'>
+                            {/* if there is a button in form, it will close the modal */}
+                            <button
+                                className='btn bg-primary mr-5'
+                                onClick={confirmDelete}
+                            >
+                                Delete
+                            </button>
+                            <button className='btn'>Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
         </>
     );
 };

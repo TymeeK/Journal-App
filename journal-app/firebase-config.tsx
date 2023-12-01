@@ -50,6 +50,8 @@ export const createEntry = async (user: User | null | undefined) => {
             user.uid,
             JOURNAL_COLL
         );
+        const date = new Date();
+        console.log(date.getDate().toString());
         const currentDoc = await addDoc(entryCollections, {
             title: '',
             content: '',

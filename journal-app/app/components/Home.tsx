@@ -54,8 +54,6 @@ const HomePage = () => {
     const navigateToJournal = async () => {
         const entryID: string | undefined = await createEntry(userID);
         if (entryID === undefined) return;
-
-        localStorage.setItem('journalID', entryID);
         router.push(`/journal/${entryID}`);
     };
     const LOGGED_IN = {
