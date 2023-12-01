@@ -1,4 +1,5 @@
 'use client';
+import Loading from '@/app/components/Loading';
 import {
     auth,
     deleteEntry,
@@ -13,6 +14,7 @@ const Table = () => {
     const [user, loading, error] = useIdToken(auth);
     const [entries, setEntries] = useState<entryObject[]>([]);
     const [entryToDelete, setEntryToDelete] = useState<string>('');
+
     useEffect(() => {
         if (user === null || user === undefined) return;
         const getAllEntries = async () => {
@@ -22,6 +24,10 @@ const Table = () => {
         };
         getAllEntries();
     }, [user]);
+
+    if (loading) {
+        <Loading />;
+    }
 
     const popModal = (e) => {
         const deleteModal = document.getElementById('my_modal_1');
@@ -84,7 +90,6 @@ const Table = () => {
                     </p>
                     <div className='modal-action'>
                         <form method='dialog'>
-                            {/* if there is a button in form, it will close the modal */}
                             <button
                                 className='btn bg-primary mr-5'
                                 onClick={confirmDelete}

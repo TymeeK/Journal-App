@@ -51,9 +51,11 @@ export const createEntry = async (user: User | null | undefined) => {
             JOURNAL_COLL
         );
         const date = new Date();
-        console.log(date.getDate().toString());
+        const localDate = date.toLocaleDateString('en-US', {
+            timeZone: 'America/Los_Angeles',
+        });
         const currentDoc = await addDoc(entryCollections, {
-            title: '',
+            title: localDate,
             content: '',
         });
         return currentDoc.id;
