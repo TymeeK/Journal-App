@@ -242,101 +242,119 @@ const TipTap = () => {
                                     <CiTextAlignLeft />
                                 </button>
                             </div>
-                            <button
-                                onClick={() =>
-                                    editor
-                                        ?.chain()
-                                        .focus()
-                                        .setTextAlign('center')
-                                        .run()
-                                }
-                                className={
-                                    editor?.isActive({
-                                        textAlign: 'center',
-                                    })
-                                        ? 'is-active btn join-item bg-primary'
-                                        : 'btn join-item'
-                                }
+                            <div
+                                className='tooltip'
+                                data-tip='cmd+shift+e/ctrl+shift+e'
                             >
-                                <CiTextAlignCenter />
-                            </button>
-                            <button
-                                onClick={() =>
-                                    editor
-                                        ?.chain()
-                                        .focus()
-                                        .setTextAlign('right')
-                                        .run()
-                                }
-                                className={
-                                    editor?.isActive({ textAlign: 'right' })
-                                        ? 'is-active btn join-item bg-primary'
-                                        : 'btn join-item'
-                                }
+                                <button
+                                    onClick={() =>
+                                        editor
+                                            ?.chain()
+                                            .focus()
+                                            .setTextAlign('center')
+                                            .run()
+                                    }
+                                    className={
+                                        editor?.isActive({
+                                            textAlign: 'center',
+                                        })
+                                            ? 'is-active btn join-item bg-primary'
+                                            : 'btn join-item'
+                                    }
+                                >
+                                    <CiTextAlignCenter />
+                                </button>
+                            </div>
+                            <div
+                                className='tooltip'
+                                data-tip='cmd+shift+r/ctrl+shift+r'
                             >
-                                <CiTextAlignRight />
-                            </button>
+                                <button
+                                    onClick={() =>
+                                        editor
+                                            ?.chain()
+                                            .focus()
+                                            .setTextAlign('right')
+                                            .run()
+                                    }
+                                    className={
+                                        editor?.isActive({ textAlign: 'right' })
+                                            ? 'is-active btn join-item bg-primary'
+                                            : 'btn join-item'
+                                    }
+                                >
+                                    <CiTextAlignRight />
+                                </button>
+                            </div>
                         </div>
                         <div className='join'>
-                            <button
-                                onClick={() =>
-                                    editor
-                                        ?.chain()
-                                        .focus()
-                                        .toggleHeading({ level: 1 })
-                                        .run()
-                                }
-                                className={
-                                    editor?.isActive('heading', {
-                                        level: 1,
-                                    })
-                                        ? 'is-active btn join-item bg-primary'
-                                        : 'btn join-item'
-                                }
-                            >
-                                <LuHeading1 />
-                            </button>
-                            <button
-                                onClick={() =>
-                                    editor
-                                        ?.chain()
-                                        .focus()
-                                        .toggleHeading({ level: 2 })
-                                        .run()
-                                }
-                                className={
-                                    editor?.isActive('heading', {
-                                        level: 2,
-                                    })
-                                        ? 'is-active btn join-item bg-primary'
-                                        : 'btn join-item'
-                                }
-                            >
-                                <LuHeading2 />
-                            </button>
-                            <button
-                                onClick={() =>
-                                    editor
-                                        ?.chain()
-                                        .focus()
-                                        .toggleHeading({ level: 3 })
-                                        .run()
-                                }
-                                className={
-                                    editor?.isActive('heading', {
-                                        level: 3,
-                                    })
-                                        ? 'is-active btn join-item bg-primary'
-                                        : 'btn join-item'
-                                }
-                            >
-                                <LuHeading3 />
-                            </button>
+                            <div className='tooltip' data-tip='#'>
+                                <button
+                                    onClick={() =>
+                                        editor
+                                            ?.chain()
+                                            .focus()
+                                            .toggleHeading({ level: 1 })
+                                            .run()
+                                    }
+                                    className={
+                                        editor?.isActive('heading', {
+                                            level: 1,
+                                        })
+                                            ? 'is-active btn join-item bg-primary'
+                                            : 'btn join-item'
+                                    }
+                                >
+                                    <LuHeading1 />
+                                </button>
+                            </div>
+                            <div className='tooltip' data-tip='##'>
+                                <button
+                                    onClick={() =>
+                                        editor
+                                            ?.chain()
+                                            .focus()
+                                            .toggleHeading({ level: 2 })
+                                            .run()
+                                    }
+                                    className={
+                                        editor?.isActive('heading', {
+                                            level: 2,
+                                        })
+                                            ? 'is-active btn join-item bg-primary'
+                                            : 'btn join-item'
+                                    }
+                                >
+                                    <LuHeading2 />
+                                </button>
+                            </div>
+                            <div className='tooltip' data-tip='###'>
+                                <button
+                                    onClick={() =>
+                                        editor
+                                            ?.chain()
+                                            .focus()
+                                            .toggleHeading({ level: 3 })
+                                            .run()
+                                    }
+                                    className={
+                                        editor?.isActive('heading', {
+                                            level: 3,
+                                        })
+                                            ? 'is-active btn join-item bg-primary'
+                                            : 'btn join-item'
+                                    }
+                                >
+                                    <LuHeading3 />
+                                </button>
+                            </div>
                         </div>
                         <div className='join'>
-                            <button className='btn join-item'>
-                                <FaRegSave />
-                            </button>
+                            <div className='tooltip' data-tip='ctrl + s'>
+                                <button className='btn join-item'>
+                                    <FaRegSave />
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div className='border-b-2 border-black-500 mb-5 pb-5'>
