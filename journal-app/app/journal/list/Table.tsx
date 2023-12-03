@@ -7,7 +7,7 @@ import {
     readAllEntries,
 } from '@/firebase-config';
 import Link from 'next/link';
-import React, { MouseEventHandler, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIdToken } from 'react-firebase-hooks/auth';
 
 const Table = () => {

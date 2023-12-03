@@ -97,123 +97,151 @@ const TipTap = () => {
                     bg-secondary-content mb-5 -ml-5 -mr-5 gap-x-10 '
                     >
                         <div className='join'>
-                            <button
-                                onClick={() =>
-                                    editor?.chain().focus().toggleBold().run()
-                                }
-                                disabled={
-                                    !editor
-                                        ?.can()
-                                        .chain()
-                                        .focus()
-                                        .toggleBold()
-                                        .run()
-                                }
-                                className={
-                                    editor?.isActive('bold')
-                                        ? 'join-item btn bg-primary'
-                                        : 'join-item btn'
-                                }
+                            <div className='tooltip' data-tip='cmd+b/ctrl+b'>
+                                <button
+                                    onClick={() =>
+                                        editor
+                                            ?.chain()
+                                            .focus()
+                                            .toggleBold()
+                                            .run()
+                                    }
+                                    disabled={
+                                        !editor
+                                            ?.can()
+                                            .chain()
+                                            .focus()
+                                            .toggleBold()
+                                            .run()
+                                    }
+                                    className={
+                                        editor?.isActive('bold')
+                                            ? 'join-item btn bg-primary'
+                                            : 'join-item btn'
+                                    }
+                                >
+                                    {editor?.isActive('bold') ? (
+                                        <>
+                                            <FaBold />
+                                        </>
+                                    ) : (
+                                        <>
+                                            <GrBold />
+                                        </>
+                                    )}
+                                </button>
+                            </div>
+                            <div className='tooltip' data-tip='cmd+i/ctrl+i'>
+                                <button
+                                    onClick={() =>
+                                        editor
+                                            ?.chain()
+                                            .focus()
+                                            .toggleItalic()
+                                            .run()
+                                    }
+                                    disabled={
+                                        !editor
+                                            ?.can()
+                                            .chain()
+                                            .focus()
+                                            .toggleItalic()
+                                            .run()
+                                    }
+                                    className={
+                                        editor?.isActive('italic')
+                                            ? 'join-item btn bg-primary'
+                                            : 'join-item btn'
+                                    }
+                                >
+                                    {editor?.isActive('italic') ? (
+                                        <>
+                                            <FaItalic />
+                                        </>
+                                    ) : (
+                                        <>
+                                            <GrItalic />
+                                        </>
+                                    )}
+                                </button>
+                            </div>
+                            <div className='tooltip' data-tip='cmd+u/ctrl+u'>
+                                <button
+                                    onClick={() =>
+                                        editor
+                                            ?.chain()
+                                            .focus()
+                                            .toggleUnderline()
+                                            .run()
+                                    }
+                                    disabled={
+                                        !editor
+                                            ?.can()
+                                            .chain()
+                                            .toggleUnderline()
+                                            .run()
+                                    }
+                                    className={
+                                        editor?.isActive('underline')
+                                            ? 'join-item btn bg-primary'
+                                            : 'join-item btn'
+                                    }
+                                >
+                                    {editor?.isActive('underline') ? (
+                                        <>
+                                            <FaUnderline />
+                                        </>
+                                    ) : (
+                                        <>
+                                            <GrUnderline />
+                                        </>
+                                    )}
+                                </button>
+                            </div>
+                            <div
+                                className='tooltip'
+                                data-tip='cmd+shift+x/ctrl+shift+x'
                             >
-                                {editor?.isActive('bold') ? (
-                                    <>
-                                        <FaBold />
-                                    </>
-                                ) : (
-                                    <>
-                                        <GrBold />
-                                    </>
-                                )}
-                            </button>
-                            <button
-                                onClick={() =>
-                                    editor?.chain().focus().toggleItalic().run()
-                                }
-                                disabled={
-                                    !editor
-                                        ?.can()
-                                        .chain()
-                                        .focus()
-                                        .toggleItalic()
-                                        .run()
-                                }
-                                className={
-                                    editor?.isActive('italic')
-                                        ? 'join-item btn bg-primary'
-                                        : 'join-item btn'
-                                }
-                            >
-                                {editor?.isActive('italic') ? (
-                                    <>
-                                        <FaItalic />
-                                    </>
-                                ) : (
-                                    <>
-                                        <GrItalic />
-                                    </>
-                                )}
-                            </button>
-                            <button
-                                onClick={() =>
-                                    editor
-                                        ?.chain()
-                                        .focus()
-                                        .toggleUnderline()
-                                        .run()
-                                }
-                                disabled={
-                                    !editor
-                                        ?.can()
-                                        .chain()
-                                        .toggleUnderline()
-                                        .run()
-                                }
-                                className={
-                                    editor?.isActive('underline')
-                                        ? 'join-item btn bg-primary'
-                                        : 'join-item btn'
-                                }
-                            >
-                                {editor?.isActive('underline') ? (
-                                    <>
-                                        <FaUnderline />
-                                    </>
-                                ) : (
-                                    <>
-                                        <GrUnderline />
-                                    </>
-                                )}
-                            </button>
-                            <button
-                                onClick={() =>
-                                    editor?.chain().focus().toggleStrike().run()
-                                }
-                                className={
-                                    editor?.isActive('strike')
-                                        ? 'join-item btn bg-primary'
-                                        : 'join-item btn'
-                                }
-                            >
-                                <GrStrikeThrough />
-                            </button>
+                                <button
+                                    onClick={() =>
+                                        editor
+                                            ?.chain()
+                                            .focus()
+                                            .toggleStrike()
+                                            .run()
+                                    }
+                                    className={
+                                        editor?.isActive('strike')
+                                            ? 'join-item btn bg-primary'
+                                            : 'join-item btn'
+                                    }
+                                >
+                                    <GrStrikeThrough />
+                                </button>
+                            </div>
                         </div>
                         <div className='join'>
-                            <button
-                                onClick={() =>
-                                    editor
-                                        ?.chain()
-                                        .focus()
-                                        .setTextAlign('left')
-                                        .run()
-                                }
-                                className={
-                                    editor?.isActive({ textAlign: 'left' })
-                                        ? 'is-active btn join-item bg-primary'
-                                        : 'btn join-item'
-                                }
+                            <div
+                                className='tooltip'
+                                data-tip='cmd+shift+l/ctrl+shift+l'
                             >
-                                <CiTextAlignLeft />
-                            </button>
+                                <button
+                                    onClick={() =>
+                                        editor
+                                            ?.chain()
+                                            .focus()
+                                            .setTextAlign('left')
+                                            .run()
+                                    }
+                                    className={
+                                        editor?.isActive({ textAlign: 'left' })
+                                            ? 'is-active btn join-item bg-primary'
+                                            : 'btn join-item'
+                                    }
+                                >
+                                    <CiTextAlignLeft />
+                                </button>
+                            </div>
                             <button
                                 onClick={() =>
                                     editor
