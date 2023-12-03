@@ -31,9 +31,6 @@ const NavButtonsEnd = () => {
         <>
             {userId ? (
                 <>
-                    <button className='btn btn-ghost'>
-                        Welcome {userId.displayName}!
-                    </button>
                     <button
                         className='btn btn-ghost'
                         onClick={async () => {

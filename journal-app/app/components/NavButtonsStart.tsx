@@ -31,6 +31,9 @@ const NavButtonsStart = () => {
                     <li>
                         <Link href='/journal/list'>View all journals</Link>
                     </li>
+                    <li>
+                        <Link href='/about'>About</Link>
+                    </li>
                 </>
             )}
         </>
