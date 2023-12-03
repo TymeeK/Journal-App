@@ -7,7 +7,7 @@ import {
     readAllEntries,
 } from '@/firebase-config';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { MouseEventHandler, useEffect, useState } from 'react';
 import { useIdToken } from 'react-firebase-hooks/auth';
 
 const Table = () => {
@@ -29,13 +29,13 @@ const Table = () => {
         <Loading />;
     }
 
-    const popModal = (e: React.ChangeEvent<HTMLDialogElement>) => {
+    const popModal = (e: React.MouseEvent<HTMLButtonElement>) => {
         const deleteModal = document.getElementById(
             'my_modal_1'
         ) as HTMLDialogElement;
         if (deleteModal === null) return;
         deleteModal.showModal();
-        setEntryToDelete(e.target.dataset.id as string);
+        setEntryToDelete(e.currentTarget.getAttribute('data-id') as string);
     };
     const confirmDelete = () => {
         deleteEntry(user, entryToDelete);
