@@ -29,10 +29,13 @@ const Table = () => {
         <Loading />;
     }
 
-    const popModal = (e) => {
-        const deleteModal = document.getElementById('my_modal_1');
+    const popModal = (e: React.ChangeEvent<HTMLDialogElement>) => {
+        const deleteModal = document.getElementById(
+            'my_modal_1'
+        ) as HTMLDialogElement;
+        if (deleteModal === null) return;
         deleteModal.showModal();
-        setEntryToDelete(e.target.dataset.id);
+        setEntryToDelete(e.target.dataset.id as string);
     };
     const confirmDelete = () => {
         deleteEntry(user, entryToDelete);
