@@ -33,9 +33,6 @@ const NavBar = () => {
                         <li>
                             <Link href='/'>Homepage</Link>
                         </li>
-                        <li>
-                            <Link href='/about'>About</Link>
-                        </li>
                     </ul>
                 </div>
                 <NavButtonsStart />
