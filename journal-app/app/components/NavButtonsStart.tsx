@@ -23,12 +23,14 @@ const NavButtonsStart = () => {
         <>
             {user && (
                 <>
-                    <button className='btn btn-ghost' onClick={clickButton}>
-                        Create new journal
-                    </button>
-                    <button className='btn btn-ghost'>
+                    <li>
+                        <button onClick={clickButton}>
+                            Create new journal
+                        </button>
+                    </li>
+                    <li>
                         <Link href='/journal/list'>View all journals</Link>
-                    </button>
+                    </li>
                 </>
             )}
         </>

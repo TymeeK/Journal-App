@@ -78,6 +78,10 @@ const TipTap = () => {
         );
     }
 
+    const updateJournal = () => {
+        updateEntry(user, id, content, title);
+    };
+
     if (!user) {
         return <Home />;
     } else {
@@ -88,7 +92,7 @@ const TipTap = () => {
                     className='max-w-screen-md border border-primary bg-white  min-w-[768px] pl-5 pr-5 text-primary-content'
                     onKeyDown={(e) => {
                         if (e.ctrlKey && e.key === 's') {
-                            updateEntry(user, id, content, title);
+                            updateJournal();
                         }
                     }}
                 >
@@ -351,7 +355,10 @@ const TipTap = () => {
                         </div>
                         <div className='join'>
                             <div className='tooltip' data-tip='ctrl + s'>
-                                <button className='btn join-item'>
+                                <button
+                                    className='btn join-item'
+                                    onClick={updateJournal}
+                                >
                                     <FaRegSave />
                                 </button>
                             </div>

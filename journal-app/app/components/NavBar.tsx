@@ -1,6 +1,4 @@
 import React from 'react';
-import LoginButton from './NavButtonsEnd';
-import SignupButton from './SignupButton';
 import Link from 'next/link';
 import NavButtonsEnd from './NavButtonsEnd';
 import NavButtonsStart from './NavButtonsStart';
@@ -33,9 +31,9 @@ const NavBar = () => {
                         <li>
                             <Link href='/'>Homepage</Link>
                         </li>
+                        <NavButtonsStart />
                     </ul>
                 </div>
-                <NavButtonsStart />
             </div>
             <div className='navbar-center'>
                 <Link href='/' className='btn btn-ghost text-xl'>
