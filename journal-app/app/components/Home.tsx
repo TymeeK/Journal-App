@@ -7,7 +7,14 @@ import Loading from './Loading';
 import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
-const HeroPage = (props) => {
+interface props {
+    WELCOME: string;
+    MESSAGE: string;
+    BUTTON_MESSAGE: string;
+    buttonAction: () => void;
+}
+
+const HeroPage = (props: props) => {
     return (
         <div
             className='hero min-h-screen'
@@ -18,17 +25,15 @@ const HeroPage = (props) => {
             <div className='hero-overlay bg-opacity-60'></div>
             <div className='hero-content text-center text-neutral-content'>
                 <div className='max-w-md'>
-                    <h1 className='mb-5 text-5xl font-bold'>
-                        {props.message.WELCOME}
-                    </h1>
-                    <p className='mb-5'>{props.message.MESSAGE}</p>
+                    <h1 className='mb-5 text-5xl font-bold'>{props.WELCOME}</h1>
+                    <p className='mb-5'>{props.MESSAGE}</p>
                     <button
                         className='btn btn-primary'
                         onClick={() => {
                             props.buttonAction();
                         }}
                     >
-                        {props.message.BUTTON_MESSAGE}
+                        {props.BUTTON_MESSAGE}
                     </button>
                 </div>
             </div>
@@ -60,6 +65,7 @@ const HomePage = () => {
         WELCOME: `Hello there ${userID?.displayName}`,
         MESSAGE: 'Click the button below to create a journal entry!',
         BUTTON_MESSAGE: 'Create Journal Entry',
+        buttonAction: navigateToJournal,
     };
 
     if (idLoading) {
@@ -67,11 +73,21 @@ const HomePage = () => {
     }
     if (!userID) {
         return (
-            <HeroPage buttonAction={signInWithGoogle} message={LOGGED_OUT} />
+            <HeroPage
+                buttonAction={signInWithGoogle}
+                WELCOME={LOGGED_OUT.WELCOME}
+                MESSAGE={LOGGED_OUT.MESSAGE}
+                BUTTON_MESSAGE={LOGGED_OUT.BUTTON_MESSAGE}
+            />
         );
     } else {
         return (
-            <HeroPage buttonAction={navigateToJournal} message={LOGGED_IN} />
+            <HeroPage
+                WELCOME={LOGGED_IN.WELCOME}
+                MESSAGE={LOGGED_IN.MESSAGE}
+                BUTTON_MESSAGE={LOGGED_IN.BUTTON_MESSAGE}
+                buttonAction={LOGGED_IN.buttonAction}
+            />
         );
     }
 };
